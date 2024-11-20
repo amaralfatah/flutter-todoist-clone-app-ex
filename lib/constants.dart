@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoist_clone_app/data/todo.dart';
 
 class ColorPallete {
   static const black = Color(0xFF242323);
@@ -9,31 +10,13 @@ class ColorPallete {
 }
 
 class DummyData {
-  static const taskLists = [
-    {
-      'title': 'Task 1',
-      'description': 'Description 1',
-      'isChecked': false,
-    },
-    {
-      'title': 'Task 2',
-      'description': 'Description 2',
-      'isChecked': false,
-    },
-    {
-      'title': 'Task 3',
-      'description': 'Description 3',
-      'isChecked': false,
-    },
-    {
-      'title': 'Task 4',
-      'description': 'Description 4',
-      'isChecked': false,
-    },
-    {
-      'title': 'Task 5',
-      'description': 'Description 5',
-      'isChecked': false,
-    },
+  static final taskLists = [
+    Todo(title: 'Task 1', description: 'Description 1'),
+    Todo(title: 'Task 2', description: 'Description 2'),
+    Todo(title: 'Task 3', description: 'Description 3'),
+    Todo(title: 'Task 4', description: 'Description 4'),
+    Todo(title: 'Task 5', description: 'Description 5'),
+    Todo(title: 'Task 6', description: 'Description 6'),
+    Todo(title: 'Task 7', description: 'Description 7'),
   ];
 }
