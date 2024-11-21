@@ -27,21 +27,21 @@ class Todo {
     );
   }
 
-  // factory Todo.fromJson(Map<String, dynamic> json) {
-  //   return Todo(
-  //     id: json['id'] as String,
-  //     title: json['title'] as String,
-  //     description: json['description'] as String,
-  //     isChecked: json['isChecked'] as bool,
-  //   );
-  // }
+  factory Todo.fromJson(Map<String, dynamic> json) {
+    return Todo(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      isChecked: json['isChecked'] as bool,
+    );
+  }
 
-  // Map<String, dynamic> toJson() {
-  //   return <String, dynamic>{
-  //     'id': id,
-  //     'title': title,
-  //     'description': description,
-  //     'isChecked': isChecked,
-  //   };
-  // }
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'description': description,
+      'isChecked': isChecked,
+    };
+  }
 }

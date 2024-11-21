@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoist_clone_app/constants.dart';
 import 'package:todoist_clone_app/data/todo.dart';
+import 'package:todoist_clone_app/service/todo_shared_preferences.dart';
 import 'package:todoist_clone_app/widgets/bottom_nav_bar_widget.dart';
 import 'package:todoist_clone_app/widgets/todo_tile_widget.dart';
 
@@ -12,6 +13,7 @@ class TodoHomeScreen extends StatefulWidget {
 }
 
 class _TodoHomeScreenState extends State<TodoHomeScreen> {
+  late TodoSharedPreferences _todoSharedPreferences;
   List<Todo> _todos = [];
 
   String? _title;
@@ -21,15 +23,50 @@ class _TodoHomeScreenState extends State<TodoHomeScreen> {
   void initState() {
     super.initState();
 
-    _todos = [
-      Todo(title: 'Task 1', description: 'Description 1'),
-      Todo(title: 'Task 2', description: 'Description 2'),
-      Todo(title: 'Task 3', description: 'Description 3'),
-      Todo(title: 'Task 4', description: 'Description 4'),
-      Todo(title: 'Task 5', description: 'Description 5'),
-      Todo(title: 'Task 6', description: 'Description 6'),
-      Todo(title: 'Task 7', description: 'Description 7'),
-    ];
+    _todoSharedPreferences = TodoSharedPreferences();
+    _initTodos();
+  }
+
+  void _initTodos() async {
+    var todos = await _todoSharedPreferences.getAllTodos();
+
+    if (todos.isEmpty) {
+      await _todoSharedPreferences
+          .saveTodo(Todo(title: 'Task 1', description: 'Follow tiktok @programmerpangandaran'));
+      await _todoSharedPreferences
+          .saveTodo(Todo(title: 'Task 2', description: 'Follow instagram @amaralfatah.me'));
+      await _todoSharedPreferences
+          .saveTodo(Todo(title: 'Task 3', description: 'Follow github @amaralfatah'));
+
+      todos = await _todoSharedPreferences.getAllTodos();
+    }
+
+    setState(() {
+      _todos = todos;
+    });
+  }
+
+  void addTodo() {
+    if (_title != null && _description != null) {
+      var todo = Todo(
+        title: _title!,
+        description: _description!,
+      );
+
+      _todoSharedPreferences.saveTodo(todo);
+
+      setState(() {
+        _todos.add(todo);
+      });
+    }
+  }
+
+  Future<void> _checkedTodo(String id) async {
+    await _todoSharedPreferences.deleteTodoById(id);
+
+    setState(() {
+      _todos.removeWhere((todo) => todo.id == id);
+    });
   }
 
   @override
@@ -86,7 +123,11 @@ class _TodoHomeScreenState extends State<TodoHomeScreen> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    TodoTileWidget(todo: _todos[index]),
+                    TodoTileWidget(
+                      key: ValueKey(_todos[index].id),
+                      todo: _todos[index],
+                      checkedTodo: _checkedTodo,
+                    ),
                     const SizedBox(
                       height: 16.0,
                     ),
@@ -223,18 +264,5 @@ class _TodoHomeScreenState extends State<TodoHomeScreen> {
         );
       },
     );
-  }
-
-  void addTodo() {
-    if (_title != null && _description != null) {
-      setState(() {
-        _todos.add(
-          Todo(
-            title: _title!,
-            description: _description!,
-          ),
-        );
-      });
-    }
   }
 }

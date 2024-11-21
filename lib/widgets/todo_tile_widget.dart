@@ -4,8 +4,10 @@ import 'package:todoist_clone_app/data/todo.dart';
 
 class TodoTileWidget extends StatefulWidget {
   final Todo todo;
+  final Function(String) checkedTodo;
   const TodoTileWidget({
     required this.todo,
+    required this.checkedTodo,
     super.key,
   });
 
@@ -28,12 +30,18 @@ class _TodoTileWidgetState extends State<TodoTileWidget> {
           child: Transform.scale(
             scale: 1.2,
             child: Checkbox(
+              activeColor: ColorPallete.red,
               value: _isChecked,
-              onChanged: (value) {
+              onChanged: (value) async {
                 if (value != null) {
                   setState(() {
                     _isChecked = value;
                   });
+
+                  if (value == true) {
+                    await Future.delayed(const Duration(milliseconds: 800));
+                    widget.checkedTodo(widget.todo.id);
+                  }
                 }
               },
               shape: const CircleBorder(),
