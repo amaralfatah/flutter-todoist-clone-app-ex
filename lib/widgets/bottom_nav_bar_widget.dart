@@ -33,7 +33,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
             Icons.inbox,
             color: ColorPallete.white,
           ),
-          label: 'Today',
+          label: 'Inbox',
           activeIcon: Icon(
             Icons.inbox,
             color: ColorPallete.red,
