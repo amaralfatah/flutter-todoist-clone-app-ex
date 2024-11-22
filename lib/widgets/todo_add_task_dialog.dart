@@ -115,7 +115,7 @@ class _TodoAddTaskDialogState extends State<TodoAddTaskDialog> {
                 IconButton(
                   onPressed: () {
                     if (_title != null && _description != null) {
-                      Provider.of<TodoModal>(widget.mainContext, listen: false)
+                      Provider.of<TodoModel>(widget.mainContext, listen: false)
                           .saveTodo(
                         id: widget.todo?.id,
                         title: _title!,

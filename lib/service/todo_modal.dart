@@ -3,10 +3,10 @@ import 'package:todoist_clone_app/service/todo_shared_preferences.dart';
 
 import '../data/todo.dart';
 
-class TodoModal extends ChangeNotifier {
+class TodoModel extends ChangeNotifier {
   late TodoSharedPreferences _todoSharedPreferences;
 
-  TodoModal() {
+  TodoModel() {
     _todoSharedPreferences = TodoSharedPreferences();
     initTodos();
   }
