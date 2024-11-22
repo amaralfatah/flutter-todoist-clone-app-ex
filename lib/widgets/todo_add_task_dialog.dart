@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoist_clone_app/service/todo_modal.dart';
 
 import '../constants.dart';
 import '../data/todo.dart';
@@ -112,20 +114,14 @@ class _TodoAddTaskDialogState extends State<TodoAddTaskDialog> {
                 ),
                 IconButton(
                   onPressed: () {
-                    // if (_title != null && _description != null) {
-                    //   if (_isEditTask) {
-                    //      widget.mainContext.read<TodoBloc>().add(TodoEditTaskEvent(
-                    //       id: widget.todo!.id, 
-                    //       title: _title!, 
-                    //       description: _description!
-                    //     ));
-                    //   } else {
-                    //     widget.mainContext.read<TodoBloc>().add(TodoAddTaskEvent(
-                    //       title: _title!, 
-                    //       description: _description!
-                    //     ));
-                    //   }
-                    // }
+                    if (_title != null && _description != null) {
+                      Provider.of<TodoModal>(widget.mainContext, listen: false)
+                          .saveTodo(
+                        id: widget.todo?.id,
+                        title: _title!,
+                        description: _description!,
+                      );
+                    }
                     Navigator.pop(context);
                   },
                   icon: const Icon(
