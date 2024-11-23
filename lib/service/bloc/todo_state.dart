@@ -6,6 +6,7 @@ enum TodoStatus {
   loading, // Sedang memuat data
   success, // Berhasil memuat/mengubah data
   error, // Terjadi kesalahan
+  empty, // Data kosong
 }
 
 @immutable

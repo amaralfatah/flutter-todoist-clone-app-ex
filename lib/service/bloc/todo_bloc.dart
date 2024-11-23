@@ -30,11 +30,17 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       // 2. Ambil data todos
       final todos = await todoSharedPreferences.getAllTodos();
 
-      // 3. Update state dengan data baru
-      emit(state.copyWith(
-        status: TodoStatus.success,
-        todos: todos,
-      ));
+      if (todos.isNotEmpty) {
+        // 3. Update state dengan data baru
+        emit(state.copyWith(
+          status: TodoStatus.success,
+          todos: todos,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: TodoStatus.empty,
+        ));
+      }
     } catch (e) {
       // 4. Handle error
       emit(state.copyWith(
@@ -115,10 +121,19 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       // 2. Update state
       final updatedTodos =
           state.todos.where((todo) => todo.id != event.id).toList();
-      emit(state.copyWith(
-        status: TodoStatus.success,
-        todos: updatedTodos,
-      ));
+
+      // 3. Cek list kosong dari updatedTodos, bukan state.todos
+      if (updatedTodos.isNotEmpty) {
+        emit(state.copyWith(
+          status: TodoStatus.success,
+          todos: updatedTodos,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: TodoStatus.empty,
+          todos: [], // Pastikan list kosong
+        ));
+      }
     } catch (e) {
       emit(state.copyWith(
         status: TodoStatus.error,

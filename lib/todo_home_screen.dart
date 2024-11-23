@@ -4,6 +4,7 @@ import 'package:todoist_clone_app/constants.dart';
 import 'package:todoist_clone_app/extension.dart';
 import 'package:todoist_clone_app/service/bloc/todo_bloc.dart';
 import 'package:todoist_clone_app/widgets/bottom_nav_bar_widget.dart';
+import 'package:todoist_clone_app/widgets/todo_empty_widget.dart';
 import 'package:todoist_clone_app/widgets/todo_tile_widget.dart';
 
 class TodoHomeScreen extends StatefulWidget {
@@ -62,32 +63,43 @@ class _TodoHomeScreenState extends State<TodoHomeScreen> {
             thickness: 0.1,
             color: ColorPallete.grey,
           ),
+          const SizedBox(
+            height: 16.0,
+          ),
           Expanded(
             child: BlocBuilder<TodoBloc, TodoState>(
               builder: (context, state) {
                 final todos = state.todos;
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        TodoTileWidget(
-                          key: ValueKey(todos[index].id),
-                          todo: todos[index],
-                        ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-                        const Divider(
-                          thickness: 0.1,
-                          color: ColorPallete.grey,
-                          indent: 40.0,
-                        )
-                      ],
-                    );
-                  },
-                  itemCount: todos.length,
-                );
+                if (state.status == TodoStatus.empty) {
+                  return const TodoEmptyWidget();
+                } else if (state.status == TodoStatus.success) {
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          TodoTileWidget(
+                            key: ValueKey(todos[index].id),
+                            todo: todos[index],
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          const Divider(
+                            thickness: 0.1,
+                            color: ColorPallete.grey,
+                            indent: 40.0,
+                          )
+                        ],
+                      );
+                    },
+                    itemCount: todos.length,
+                  );
+                } else {
+                  return const SizedBox(
+                    child: Text("tidak apa"),
+                  );
+                }
               },
             ),
           ),
