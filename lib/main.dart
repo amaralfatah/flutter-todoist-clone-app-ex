@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todoist_clone_app/service/todo_modal.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoist_clone_app/service/bloc/todo_bloc.dart';
+import 'package:todoist_clone_app/service/todo_shared_preferences.dart';
 import 'package:todoist_clone_app/todo_home_screen.dart';
 
 void main() {
@@ -19,8 +20,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: ChangeNotifierProvider(
-        create: (_) => TodoModel(),
+      home: BlocProvider<TodoBloc>(
+        create: (_) => TodoBloc(TodoSharedPreferences())..add(TodoInitEvent()),
         child: const TodoHomeScreen(),
       ),
     );

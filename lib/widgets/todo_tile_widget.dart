@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoist_clone_app/constants.dart';
 import 'package:todoist_clone_app/data/todo.dart';
 import 'package:todoist_clone_app/extension.dart';
-import 'package:todoist_clone_app/service/todo_modal.dart';
+import 'package:todoist_clone_app/service/bloc/todo_bloc.dart';
 
 class TodoTileWidget extends StatefulWidget {
   final Todo todo;
@@ -50,8 +50,9 @@ class _TodoTileWidgetState extends State<TodoTileWidget> {
                   if (value == true) {
                     await Future.delayed(const Duration(milliseconds: 800));
                     if (mounted) {
-                      Provider.of<TodoModel>(context, listen: false)
-                          .checkedTodo(widget.todo.id);
+                      context
+                          .read<TodoBloc>()
+                          .add(TodoDeleteEvent(id: widget.todo.id));
                     }
                   }
                 }

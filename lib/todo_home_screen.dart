@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoist_clone_app/constants.dart';
 import 'package:todoist_clone_app/extension.dart';
-import 'package:todoist_clone_app/service/todo_modal.dart';
+import 'package:todoist_clone_app/service/bloc/todo_bloc.dart';
 import 'package:todoist_clone_app/widgets/bottom_nav_bar_widget.dart';
 import 'package:todoist_clone_app/widgets/todo_tile_widget.dart';
 
@@ -63,9 +63,9 @@ class _TodoHomeScreenState extends State<TodoHomeScreen> {
             color: ColorPallete.grey,
           ),
           Expanded(
-            child: Consumer<TodoModel>(
-              builder: (context, model, _) {
-                final todos = model.todos;
+            child: BlocBuilder<TodoBloc, TodoState>(
+              builder: (context, state) {
+                final todos = state.todos;
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   itemBuilder: (context, index) {
